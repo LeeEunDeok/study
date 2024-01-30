@@ -1,0 +1,3 @@
+# 구현해야 할 목록
+hello=com.shopping.controller.HelloController
+world=com.shopping.controller.WorldController

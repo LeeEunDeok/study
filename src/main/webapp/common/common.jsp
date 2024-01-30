@@ -8,8 +8,19 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
+	// appName : 애플리케이션 컨텍스트 이름(프로젝트 이름)
 	String appName = request.getContextPath();
-	out.print("컨텍스트 이름 : " + appName + "<br>");
+	String mappingName = "/Shopping"; // in FrontController.java
+	
+	// 폼 태그에서 사용할 전역 변수
+	String withFormTag = appName + mappingName;
+	// 폼 태그가 아닌 곳에서 사용할 전역 변수
+	String notWithFormTag = withFormTag + "?command=";
+	
+	//out.print("컨텍스트 이름 : " + appName + "<br>");
+	//out.print("mappingName : " + mappingName + "<br>");
+	//out.print("withFormTag : " + withFormTag + "<br>");
+	//out.print("notWithFormTag : " + notWithFormTag + "<br>");
 %>
 
 <!DOCTYPE html>
