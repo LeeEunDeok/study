@@ -1,6 +1,24 @@
+<%@page import="com.shopping.model.bean.FillItem"%>
+<%@page import="com.shopping.model.dao.FillItemDao"%>
+<%@page import="com.shopping.model.bean.Member"%>
+<%@page import="com.shopping.model.dao.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp"%>
+
+<%
+	MemberDao dao = new MemberDao();
+	List<Member> dataList = dao.getDataList();
+	
+	FillItemDao fdao = new FillItemDao();
+	String module = "members";
+	String field = "hobby";
+	List<FillItem> hobbyList = fdao.getDataList(module, field);
+%>
+
+<c:set var="dataList" value="<%=dataList%>" />
+<c:set var="hobbyList" value="<%=hobbyList%>" />
+
 <!DOCTYPE html>
 <html>
 	<head>

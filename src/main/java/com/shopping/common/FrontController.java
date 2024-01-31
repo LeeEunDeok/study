@@ -19,9 +19,10 @@ import com.shopping.utility.MyUtility;
 					@WebInitParam(name = "todolist", value = "/WEB-INF/todolist.txt")
 			}
 		)
-public class FrontController extends HttpServlet{
+public class FrontController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	private String todolist = null; // 할 일을 명시해둔 장부 파일
-	private Map<String, String> todolistMap = null;
+	private Map<String, SuperController> todolistMap = null;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -44,12 +45,29 @@ public class FrontController extends HttpServlet{
 		
 		System.out.println("command is [" + command + "]");
 		
-		String method = request.getMethod().toLowerCase();
-		if(method.equals("get")) {
-			System.out.println(this.getClass() + " get 메소드 호출됨");
-		}else {
-			System.out.println(this.getClass() + " post 메소드 호출됨");
+		// controller 는 해당 command 에 상응하는 하위 컨트롤러 객체 입니다.
+		SuperController controller = this.todolistMap.get(command);
+		
+		if(controller != null) {
+			try {
+				String method = request.getMethod().toLowerCase();
+				if(method.equals("get")) {
+					controller.doGet(request, response);
+					System.out.println(controller.getClass() + " get 메소드 호출됨");
+					
+				}else {
+					controller.doPost(request, response);
+					System.out.println(controller.getClass() + " post 메소드 호출됨");
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			System.out.println("request command is not found");
 		}
+		
 	}
 	
 	@Override

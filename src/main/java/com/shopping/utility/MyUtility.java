@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.shopping.common.SuperController;
+
 public class MyUtility {
 
-	public static Map<String, String> getTodolistMap(String fileName) {
-		Map<String, String> map = new HashMap<String, String>();
+	public static Map<String, SuperController> getTodolistMap(String fileName) {
+		Map<String, SuperController> map = new HashMap<String, SuperController>();
 		
 		Properties prop = getPropertiesData(fileName);
 		
@@ -19,7 +21,17 @@ public class MyUtility {
 			String command = keys.nextElement().toString();
 			String className = prop.getProperty(command);
 			
-			map.put(command, className);
+			try {
+				Class<?> handleClass = Class.forName(className);
+				SuperController instance = (SuperController)handleClass.newInstance();
+				
+				map.put(command, instance);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
 		
 		return map;

@@ -1,3 +1,30 @@
 # 구현해야 할 목록
 hello=com.shopping.controller.HelloController
 world=com.shopping.controller.WorldController
+# member section
+meLogin=com.shopping.controller.member.MemberLoginController
+meLogout=com.shopping.controller.member.MemberLogoutController
+#meInsert=com.shopping.controller.member.MemberInsertController
+#meUpdate=com.shopping.controller.member.MemberUpdateController
+meList=com.shopping.controller.member.MemberListController
+#meDelete=com.shopping.controller.member.MemberDeleteController
+#meDetail=com.shopping.controller.member.MemberDetailController
+# board section
+#boInsert=com.shopping.controller.board.BoardInsertController
+#boUpdate=com.shopping.controller.board.BoardUpdateController
+boList=com.shopping.controller.board.BoardListController
+#boDelete=com.shopping.controller.board.BoardDeleteController
+#boDetail=com.shopping.controller.board.BoardDetailController
+# product section
+#prInsert=com.shopping.controller.product.ProductInsertController
+#prUpdate=com.shopping.controller.product.ProductUpdateController
+prList=com.shopping.controller.product.ProductListController
+#prDelete=com.shopping.controller.product.ProductDeleteController
+#prDetail=com.shopping.controller.product.ProductDetailController
+# view section
+#vwList=com.shopping.controller.view.ViewListController
+#vwExam01=com.shopping.controller.view.View01Controller
+#vwExam02=com.shopping.controller.view.View02Controller
+#vwExam03=com.shopping.controller.view.View03Controller
+#vwExam04=com.shopping.controller.view.View04Controller
+#vwExam05=com.shopping.controller.view.View05Controller

@@ -9,7 +9,6 @@ import java.util.List;
 import com.shopping.model.bean.Member;
 
 public class MemberDao extends SuperDao{
-	
 	public int updateData(Member bean) {
 		
 		String sql = "update members set name = ?, password = ?, gender = ?, birth = ?, marriage = ?, hobby = ?,"
@@ -68,43 +67,42 @@ public class MemberDao extends SuperDao{
 	
 	//해당 아이디를 이용하여 1건의 정보를 반환합니다.
 	public Member getDataBean(String id) {
+		String sql = "select * from members";
+		sql += " where id = ?";
+		
+		PreparedStatement pstmt = null; // 문장 객체
+		ResultSet rs = null;
+		Member bean = null;
+		
+		super.conn = super.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
 			
-			String sql = "select * from members";
-			sql += " where id = ?";
-			PreparedStatement pstmt = null; // 문장 객체
-			ResultSet rs = null;
-			Member bean = null;
-			
-			super.conn = super.getConnection();
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, id);
-				rs = pstmt.executeQuery();
-				
-				// 요소를 읽어서 bean에 담습니다.
-				if(rs.next()) {
-					bean = this.resultSet2Bean(rs);
-				}
-				
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-				
-			} finally {
-				try {
-					if(rs != null) {rs.close();}
-					if(pstmt != null) {pstmt.close();}
-					super.closeConnection();
-					
-				} catch(Exception e2) {
-					e2.printStackTrace();
-				}
+			// 요소를 읽어서 bean에 담습니다.
+			if(rs.next()) {
+				bean = this.resultSet2Bean(rs);
 			}
-					
-			return bean;
 			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+				
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
 		}
+				
+		return bean;
+	}
 	
 	public int insertData(Member bean) {
 		System.out.println(bean);
@@ -151,6 +149,47 @@ public class MemberDao extends SuperDao{
 			}
 		}
 		return cnt;
+	}
+	
+	public Member getDataByIdAndPasswrod(String id, String password) {
+		// 아이디와 비밀번호를 이용하여 해당 회원이 존재하는지 확인합니다.
+		String sql = "select * from members";
+		sql += " where id = ? and password = ?";
+		
+		PreparedStatement pstmt = null; // 문장 객체
+		ResultSet rs = null;
+		Member bean = null;
+		
+		super.conn = super.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, password);
+			rs = pstmt.executeQuery();
+			
+			// 요소를 읽어서 bean에 담습니다.
+			if(rs.next()) {
+				bean = this.resultSet2Bean(rs);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+				
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+				
+		return bean;
+		
 	}
 	
 	private Member resultSet2Bean(ResultSet rs) {
@@ -215,9 +254,8 @@ public class MemberDao extends SuperDao{
 		return dataList;
 	}
 	
-	
-	
 	public List<Member> getDataList02(){
+
 		List<Member> dataList = new ArrayList<Member>();
 		
 		dataList.add(new Member("kim", "김앙드레", null, "남", null, null, "디자인", null, 1134));
@@ -227,4 +265,5 @@ public class MemberDao extends SuperDao{
 		
 		return dataList;
 	}
+
 }

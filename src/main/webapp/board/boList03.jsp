@@ -1,6 +1,17 @@
+<%@page import="com.shopping.model.bean.Board"%>
+<%@page import="java.util.List"%>
+<%@page import="com.shopping.model.dao.BoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp"%>
+
+<%
+BoardDao dao = new BoardDao();
+List<Board> dataList = dao.getDataList();
+%>
+
+<c:set var="dataList" value="<%=dataList%>" />
+
 <!DOCTYPE html>
 <html>
 	<head>
