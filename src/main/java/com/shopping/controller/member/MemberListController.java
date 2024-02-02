@@ -21,6 +21,7 @@ public class MemberListController extends SuperClass {
 		MemberDao dao = new MemberDao();
 		List<Member> dataList = dao.getDataList();
 		
+		// 영문으로 되어 있는 취미를 한글로 바꾸기 위해 필요합니다.
 		FillItemDao fdao = new FillItemDao();
 		String module = "members";
 		String field = "hobby";

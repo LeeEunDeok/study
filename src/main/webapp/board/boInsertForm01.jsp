@@ -63,8 +63,7 @@
 		<div class="container mt-3">
 			<h2>게시물 등록</h2>
 			<p>사용자들이 게시물을 등록하는 페이지 입니다.</p>
-			<form action="<%=withFormTag%>" method="post">
-			<input type="hidden" name="command" value="boInsert">
+			<form action="boInsertTo.jsp">
 				<div id="boardNo" class="input-group mb-3">
 					<span class="input-group-text">글번호</span>
 					<input type="text" class="form-control" id="no" name="no">
@@ -72,9 +71,8 @@
 				
 				<div class="input-group mb-3">
 					<span class="input-group-text">작성자</span>
-					<c:set var="userInfo" value="${sessionScope.logInfo.name}(${sessionScope.logInfo.id})" />
-					<input type="text" class="form-control" id="fakeid" name="fakeid" value="${userInfo}" disabled>
-					<input type="hidden" class="form-control" id="id" name="id" value="${sessionScope.logInfo.id}">
+					<input type="text" class="form-control" id="fakeid" name="fakeid" value="hong" disabled>
+					<input type="hidden" class="form-control" id="id" name="id" value="hong">
 				</div>
 				
 				<div class="input-group mb-3">

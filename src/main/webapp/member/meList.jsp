@@ -41,10 +41,12 @@
 									<c:otherwise>미확인</c:otherwise>
 								</c:choose>
 							</td>
+							
 							<td>
 								<c:set var="condition" value="${bean.birth == 'null'}" />
 								${condition ? "미확인" : bean.birth}
 							</td>
+							
 							<td>
 								<c:choose>
 									<c:when test="${bean.marriage == 'marriage'}">결혼</c:when>
@@ -52,18 +54,16 @@
 									<c:when test="${bean.marriage == 'divorce'}">이혼</c:when>
 								</c:choose>
 							</td>
-							
-							
-							
-							<td>
-								<c:forEach var="bean2" items="${hobbyList }">
-									<c:if test="${fn:contains(bean.hobby, bean2.engname)}">
-										<c:set var="newHobby" value="${fn:replace(bean.hobby, bean2.engname, bean2.korname)}" />
-									</c:if>
-								</c:forEach>
-								${newHobby }
-							</td>	
-							
+
+							<td> 
+		                        <c:set var="newHobby" value="${requestScope.bean.hobby}"/>
+		                        <c:forEach var="one" items="${hobbyList}" varStatus="status">
+		                            <c:if test="${fn:contains(newHobby, one.engname)}">
+		                                <c:set var="newHobby" value="${fn:replace(newHobby, one.engname, one.korname)}"/>
+		                            </c:if>
+		                        </c:forEach>
+		                        ${newHobby}
+		                    </td>
 													
 							<td>${bean.address }</td>
 							<td>

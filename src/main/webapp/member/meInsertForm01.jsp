@@ -1,6 +1,20 @@
+<%@page import="com.shopping.model.bean.FillItem"%>
+<%@page import="com.shopping.model.dao.FillItemDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp" %>
+
+<%
+	// 라디오버튼과 체크박스는 데이터베이스에서 읽어 동적으로 채웁니다.
+	FillItemDao fdao = new FillItemDao();
+	List<FillItem> genderList = fdao.getDataList("members", "gender");
+	List<FillItem> marriageList = fdao.getDataList("members", "marriage");
+	List<FillItem> hobbyList = fdao.getDataList("members", "hobby");
+%>
+<c:set var="genderList" value="<%=genderList %>" />
+<c:set var="marriageList" value="<%=marriageList %>" />
+<c:set var="hobbyList" value="<%=hobbyList %>" />
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,31 +22,10 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 		<script type="text/javascript">
-		   $(document).ready(function() {
-			   $('#birth').datepicker({dateFormat:"yy/mm/dd"});
-			      
-		       /* value 속성의 값이 일치하는 항목에 대하여 체크 on 시킵니다. */
-	           /* 성별 라디오 */
-   	           $('input[value="${bean.gender}"]').attr('checked', true);
-			      
-			   /* 결혼 여부 */
-	           $('input[value="${bean.marriage}"]').attr('checked', true);
-			         
-		       /* 취미 관련 문자열 예시 : "탁구,축구,"*/
-	   	       var hobbyCheck = "${bean.hobby}";
-			      
-
-		       /* 취미 체크 박스 목록 */
-	           var checkHobbies = $('input[name=hobby]') ;
-			      
-		       for(var i=0 ; i<checkHobbies.length ; i++){
-		    	   var idx = hobbyCheck.indexOf(checkHobbies[i].value);         
-			       if(idx >= 0){
-			    	   checkHobbies[i].checked = true ;
-			       	 }
-			      }      
-			   });
-		   
+			$(document).ready(function(){
+				$('#birth').datepicker({dateFormat:"yy/mm/dd"});
+			});
+			
 			function validCheck(){/* form validation check */
 		        var id = $('#id').val();           
 		        
@@ -123,22 +116,20 @@
 			<h2>회원 가입</h2>
 			<p>신규 회원이 가입하는 페이지 입니다.</p>
 	
-			<form action="<%=withFormTag %>" method="post">
-			<input type="hidden" name="command" value="meUpdate">
+			<form action="meInsertTo.jsp">
 				<div class="input-group mb-3">
 					<span class="input-group-text">아이디</span>
-					<input type="text" class="form-control" id="fakeid" name="fakeid" value="${bean.id }" disabled>
-					<input type="hidden" class="form-control" id="id" name="id" value="${bean.id }">
+					<input type="text" class="form-control" id="id" name="id" value="asdf">
 				</div>
 	
 				<div class="input-group mb-3">
 					<span class="input-group-text">이름</span>
-					<input type="text" class="form-control" id="name" name="name" value="${bean.name }">
+					<input type="text" class="form-control" id="name" name="name" value="강철수">
 				</div>
 	
 				<div class="input-group mb-3">
 					<span class="input-group-text">비밀번호</span>
-					<input type="password" class="form-control" id="password" name="password">
+					<input type="password" class="form-control" id="password" name="password" value="asdf@123">
 				</div>
 	
 				<div class="input-group mb-3">
@@ -155,7 +146,7 @@
 	
 				<div class="input-group mb-3">
 					<span class="input-group-text">생일</span>
-					<input type="text" class="form-control" id="birth" name="birth" value="${bean.birth }">
+					<input type="text" class="form-control" id="birth" name="birth" value="2021/01/30">
 				</div>
 	
 				<div class="input-group mb-3">
@@ -184,11 +175,11 @@
 	
 				<div class="input-group mb-3">
 					<span class="input-group-text">주소</span>
-					<input type="text" class="form-control" id="address" name="address" value="${bean.address }">
+					<input type="text" class="form-control" id="address" name="address" value="마포구 거구장">
 				</div>
 	
 				<div id="buttonset" class="input-group mb-3">
-					<button type="submit" class="btn btn-primary btn-sm" onclick="return validCheck();">수정</button>
+					<button type="submit" class="btn btn-primary btn-sm" onclick="return validCheck();">가입</button>
 					&nbsp;&nbsp;&nbsp;
 					<button type="reset" class="btn btn-danger btn-sm">초기화</button>
 				</div>

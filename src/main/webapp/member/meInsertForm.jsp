@@ -1,20 +1,6 @@
-<%@page import="com.shopping.model.bean.FillItem"%>
-<%@page import="com.shopping.model.dao.FillItemDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../common/common.jsp" %>
-
-<%
-	// 라디오버튼과 체크박스는 데이터베이스에서 읽어 동적으로 채웁니다.
-	FillItemDao fdao = new FillItemDao();
-	List<FillItem> genderList = fdao.getDataList("members", "gender");
-	List<FillItem> marriageList = fdao.getDataList("members", "marriage");
-	List<FillItem> hobbyList = fdao.getDataList("members", "hobby");
-%>
-<c:set var="genderList" value="<%=genderList %>" />
-<c:set var="marriageList" value="<%=marriageList %>" />
-<c:set var="hobbyList" value="<%=hobbyList %>" />
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -116,7 +102,8 @@
 			<h2>회원 가입</h2>
 			<p>신규 회원이 가입하는 페이지 입니다.</p>
 	
-			<form action="meInsertTo.jsp">
+			<form action="<%=withFormTag%>" method="post">
+				<input type="hidden" name="command" value="meInsert">
 				<div class="input-group mb-3">
 					<span class="input-group-text">아이디</span>
 					<input type="text" class="form-control" id="id" name="id" value="asdf">

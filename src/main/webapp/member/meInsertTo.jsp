@@ -49,7 +49,6 @@
 	
 	out.print(bean + "<br>");
 	out.print(message + "<br>");
-	
 %>
 
 <!DOCTYPE html>

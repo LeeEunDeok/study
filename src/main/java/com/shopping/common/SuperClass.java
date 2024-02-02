@@ -17,6 +17,17 @@ public class SuperClass implements SuperController {
 	// 로그인 여부를 파악하는 변수. 하위 컨트롤러들이 참조 가능.
 	protected Member logInfo = null;
 	
+	public String getUrlInformation(String todoCommand) {
+		// todoCommand : todolist.txt 파일에 명시된 커맨드 이름
+		// 커맨드 이름을 사용하여 웹 주소 형식의 FullName을 반환해 줍니다.
+		String appName = this.request.getContextPath(); // in file common.jsp
+		String mappingName = "/Shopping"; // url Pattern in file FrontController
+		
+		String fullAddress = appName + mappingName + "?command=" + todoCommand;
+		System.out.println("요청 url 전체 경로명 :\n" + fullAddress);
+		return fullAddress;
+	}
+	
 	public void youNeededLogin() {
 		// 미로그인 시 적절한 메시지를 보여주고 로그인 페이지로 이동합니다.
 		String message = "로그인이 필요한 서비스입니다.";

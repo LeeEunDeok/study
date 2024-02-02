@@ -4,17 +4,17 @@ world=com.shopping.controller.WorldController
 # member section
 meLogin=com.shopping.controller.member.MemberLoginController
 meLogout=com.shopping.controller.member.MemberLogoutController
-#meInsert=com.shopping.controller.member.MemberInsertController
-#meUpdate=com.shopping.controller.member.MemberUpdateController
+meInsert=com.shopping.controller.member.MemberInsertController
+meUpdate=com.shopping.controller.member.MemberUpdateController
 meList=com.shopping.controller.member.MemberListController
 #meDelete=com.shopping.controller.member.MemberDeleteController
-#meDetail=com.shopping.controller.member.MemberDetailController
+meDetail=com.shopping.controller.member.MemberDetailController
 # board section
-#boInsert=com.shopping.controller.board.BoardInsertController
-#boUpdate=com.shopping.controller.board.BoardUpdateController
+boInsert=com.shopping.controller.board.BoardInsertController
+boUpdate=com.shopping.controller.board.BoardUpdateController
 boList=com.shopping.controller.board.BoardListController
 #boDelete=com.shopping.controller.board.BoardDeleteController
-#boDetail=com.shopping.controller.board.BoardDetailController
+boDetail=com.shopping.controller.board.BoardDetailController
 # product section
 #prInsert=com.shopping.controller.product.ProductInsertController
 #prUpdate=com.shopping.controller.product.ProductUpdateController

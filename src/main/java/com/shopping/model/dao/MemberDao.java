@@ -100,7 +100,8 @@ public class MemberDao extends SuperDao{
 				e2.printStackTrace();
 			}
 		}
-				
+		System.out.print("id로 조회 결과 : ");
+		System.out.println(bean);
 		return bean;
 	}
 	
