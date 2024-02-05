@@ -66,7 +66,7 @@
 
 				<div id="backButton" align="center">
 					<button type="button" class="btn btn-primary"
-						onclick="location.href='<%=notWithFormTag%>boList'">돌아가기</button>
+						onclick="location.href='<%=notWithFormTag%>boList${requestScope.paramList}'">돌아가기</button>
 				</div>
 
 			</div>

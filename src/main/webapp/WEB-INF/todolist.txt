@@ -13,7 +13,7 @@ meDetail=com.shopping.controller.member.MemberDetailController
 boInsert=com.shopping.controller.board.BoardInsertController
 boUpdate=com.shopping.controller.board.BoardUpdateController
 boList=com.shopping.controller.board.BoardListController
-#boDelete=com.shopping.controller.board.BoardDeleteController
+boDelete=com.shopping.controller.board.BoardDeleteController
 boDetail=com.shopping.controller.board.BoardDetailController
 # product section
 #prInsert=com.shopping.controller.product.ProductInsertController

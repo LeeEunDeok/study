@@ -64,7 +64,14 @@
 		<h2>게시물 수정</h2>
 		<p>게시물을 수정하는 페이지 입니다.</p>
 		<form action="<%=withFormTag%>" method="post">
-		<input type="hidden" name="command" value="boUpdate">
+			<input type="hidden" name="command" value="boUpdate">
+			
+			<%-- 다음 숨김 파라미터들은 페이징과 관련된 항목들입니다. --%>
+			<input type="hidden" name="pageNumber" value="<%=request.getParameter("pageNumber")%>">
+			<input type="hidden" name="pageSize" value="<%=request.getParameter("pageSize")%>">
+			<input type="hidden" name="mode" value="<%=request.getParameter("mode")%>">
+			<input type="hidden" name="keyword" value="<%=request.getParameter("keyword")%>">
+		
 			<div id="boardNo" class="input-group mb-3">
 				<span class="input-group-text">글번호</span>
 				<input type="text" class="form-control" id="fakeno" name="fakeno" value="${bean.no }" disabled>

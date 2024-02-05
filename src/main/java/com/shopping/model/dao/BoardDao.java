@@ -11,7 +11,6 @@ import com.shopping.utility.Paging;
 
 // 게시물과 관련된 Dao(Data Access Object) 클래스
 public class BoardDao extends SuperDao {
-	
 	public int updateData(Board bean) {
 		System.out.print("게시물 수정 페이지 : ");
 		System.out.println(bean);
@@ -103,6 +102,50 @@ public class BoardDao extends SuperDao {
 		
 	}
 	
+	public int deleteData(int no) {
+		String sql = "delete from boards where no = ?";
+		
+		PreparedStatement pstmt = null;
+		int cnt = -1;
+		
+		try {
+			super.conn = super.getConnection();
+			// 자동 커밋 기능을 비활성 합니다.
+			// 실행이 성공적으로 완료되면 커밋 하도록 commit() 메소드를 명시합니다.
+			conn.setAutoCommit(false);
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			// sql 문장 실행 전 치환
+			pstmt.setInt(1, no);
+			
+			cnt = pstmt.executeUpdate();
+			conn.commit();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				
+			}
+		}finally {
+			try {
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+				
+			}catch(Exception e2) {
+				e2.printStackTrace();
+				
+			}
+		}
+		
+		
+		return cnt;
+	}
+	
 	public int insertData(Board bean) {
 		// no 컬럼은 시퀀스가 알아서 처리합니다.
 		
@@ -121,10 +164,10 @@ public class BoardDao extends SuperDao {
 			pstmt = conn.prepareStatement(sql);
 			
 			// 실행전 ? 치환하기
-			pstmt.setString(1,bean.getId());
-			pstmt.setString(2,bean.getPassword());
-			pstmt.setString(3,bean.getSubject());
-			pstmt.setString(4,bean.getContents());
+			pstmt.setString(1, bean.getId());
+			pstmt.setString(2, bean.getPassword());
+			pstmt.setString(3, bean.getSubject());
+			pstmt.setString(4, bean.getContents());
 			
 			cnt = pstmt.executeUpdate();
 			

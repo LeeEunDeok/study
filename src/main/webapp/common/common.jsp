@@ -154,7 +154,7 @@ String notWithFormTag = withFormTag + "?command=";
 		</div>
 	</c:if>
 
-	<%-- 보여준 ALert Box 의 내용을 session 영역에서 제거합니다.  --%>
+	<%-- 보여준 Alert Box 의 내용을 session 영역에서 제거합니다.  --%>
 	<%-- session.removeAttribute("alertMessage");  자바방식--%>
 	<c:remove var="alertMessage" scope="session" />
 

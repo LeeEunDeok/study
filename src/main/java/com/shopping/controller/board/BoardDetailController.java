@@ -29,6 +29,15 @@ public class BoardDetailController extends SuperClass {
 				dao.updateReadhit(no);
 			}
 			
+			System.out.println("다음은 페이징 처리와 관련된 파라미터입니다.");
+			System.out.println("상세 보기 페이지에서 '돌아가기' 버튼 클릭 시 함께 넘겨 주도록 합니다.");
+			
+			String paramList = "&pageNumber=" + request.getParameter("pageNumber");
+			paramList += "&pageSize=" + request.getParameter("pageSize");
+			paramList += "&mode=" + request.getParameter("mode");
+			paramList += "&keyword=" + request.getParameter("keyword");
+			request.setAttribute("paramList", paramList);
+			
 			request.setAttribute("bean", bean);
 			super.goToPage(PREFIX + "boDetail.jsp");
 		}
