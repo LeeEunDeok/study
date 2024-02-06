@@ -16,11 +16,11 @@ boList=com.shopping.controller.board.BoardListController
 boDelete=com.shopping.controller.board.BoardDeleteController
 boDetail=com.shopping.controller.board.BoardDetailController
 # product section
-#prInsert=com.shopping.controller.product.ProductInsertController
-#prUpdate=com.shopping.controller.product.ProductUpdateController
+prInsert=com.shopping.controller.product.ProductInsertController
+prUpdate=com.shopping.controller.product.ProductUpdateController
 prList=com.shopping.controller.product.ProductListController
-#prDelete=com.shopping.controller.product.ProductDeleteController
-#prDetail=com.shopping.controller.product.ProductDetailController
+prDelete=com.shopping.controller.product.ProductDeleteController
+prDetail=com.shopping.controller.product.ProductDetailController
 # view section
 #vwList=com.shopping.controller.view.ViewListController
 #vwExam01=com.shopping.controller.view.View01Controller

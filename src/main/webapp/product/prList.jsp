@@ -61,7 +61,7 @@
 		/* id 속성이 deleteAnhor로 시작하는 항목을 찾아서 클릭 function */
 		$('[id^=deleteAnchor]').click(function(){
 			var response = confirm('해당 상품을 삭제하시겠습니까?');
-			if(response){
+			if(response == true){
 				var pnum = $(this).attr('data'); /* 상품 번호 */
 				
 				var url = '<%=notWithFormTag%>prDelete${requestScope.paging.flowParameter}&pnum=' + pnum;
@@ -101,7 +101,7 @@
 							<td>
 								<div class="card" style="width: 300px">
 									<a class="removeUnderLine"
-										href="https://www.naver.com?pnum=${bean.pnum}"> <img
+										href="<%=notWithFormTag%>prDetail&pnum=${bean.pnum}${requestScope.paging.flowParameter}"> <img
 										class="card-img-top" src="image/${bean.image01}"
 										alt="${bean.name}">
 										<div class="card-body">
@@ -121,7 +121,7 @@
 											<c:if test="${whologin == 2}">
 												<div id="buttonList">
 													<a id="updateAnchor" class="btn btn-info"
-													href="<%=notWithFormTag%>prUdate&pnum=${bean.pnum}${requestScope.paging.flowParameter}">
+													href="<%=notWithFormTag%>prUpdate&pnum=${bean.pnum}${requestScope.paging.flowParameter}">
 														수정
 													</a>
 													<a id="deleteAnchor_${bean.pnum}" class="btn btn-danger"

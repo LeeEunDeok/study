@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
 import com.shopping.utility.MyUtility;
 
 @WebServlet(urlPatterns = {"/Shopping", "/xxx"},
@@ -23,6 +24,7 @@ public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String todolist = null; // 할 일을 명시해둔 장부 파일
 	private Map<String, SuperController> todolistMap = null;
+	private String imageUploadWebPath = null; // 실제 이미지가 업로드 되는 웹서버 상의 전체 경로
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -34,6 +36,10 @@ public class FrontController extends HttpServlet {
 		this.todolistMap = MyUtility.getTodolistMap(application.getRealPath(todolist));
 		System.out.println("todolist Map Size : " + todolistMap.size());
 		System.out.println(todolistMap.toString());
+		
+		String imsiPath = "image";
+		this.imageUploadWebPath = application.getRealPath(imsiPath);
+		System.out.println("이미지 업로드 경로 : \n" + imageUploadWebPath);
 	}
 	
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,6 +48,32 @@ public class FrontController extends HttpServlet {
 		
 		// command Parameter : 컨트롤러 분기를 위한 핵심 파라미터
 		String command = request.getParameter("command");
+		
+		// 파일은 업로드 시 request 내장 객체에서 직접 파라미터를 챙길 수 없습니다.
+		// 이유는 폼 태그의 enctype="multipart/form-data" 속성 때문 입니다.
+		// 이미지 관련 항목들을 String 이 아닌 객체 형태로 다루어야 하기 때문 입니다.
+		// in prInsertForm.jsp
+		if(command == null) {
+			System.out.println("file upload event invoked");
+			
+			MultipartRequest mr = MyUtility.getMultipartRequest(request, imageUploadWebPath);
+			// 분기 처리
+			if(mr != null) {
+				// 파일 업로드인 경우에는 mr 객체를 이용해야만 파라미터 정보를 읽어 올 수 있습니다.
+				command = mr.getParameter("command");
+				
+				if(command.equals("prUpdate")) {
+					// 상품 정보 수정 시 과거 이미지는 삭제해 주어야 합니다.
+					MyUtility.deleteOldImageFile(imageUploadWebPath, mr);
+				}
+				
+				// file upload object binding in request scope
+				request.setAttribute("mr", mr);
+				
+			}else {
+				System.out.println("MultipartRequest object is null");
+			}
+		}
 		
 		System.out.println("command is [" + command + "]");
 		

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.shopping.model.bean.Product;
+
 // 모든 Dao들이 사용할 공통 변수나 메소드를 정의합니다.
 public class SuperDao {
 	// 접속 개체 conn은 하위 다오들이 접근할 수 있도록 합니다.
@@ -93,4 +95,5 @@ public class SuperDao {
 		
 		return conn;
 	}
+
 }
