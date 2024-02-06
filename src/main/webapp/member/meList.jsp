@@ -55,7 +55,7 @@
 								</c:choose>
 							</td>
 
-							<td> 
+							<td>
 		                        <c:set var="newHobby" value="${requestScope.bean.hobby}"/>
 		                        <c:forEach var="one" items="${hobbyList}" varStatus="status">
 		                            <c:if test="${fn:contains(newHobby, one.engname)}">
