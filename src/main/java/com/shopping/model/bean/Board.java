@@ -9,9 +9,12 @@ public class Board {
 	private int readhit;
 	private String regdate;
 	private String remark;
-	private int groupno;
-	private int orderno;
-	private int depth;
+	
+	// 원글 : 사용자가 게시한 최초 작성 글(groupno 는 시퀀스가 생성한 번호와 동일, orderno = 0, depth = 0 인 글)
+	// 답글은 최대 5개까지 작성 가능함(정하기 나름)
+	private int groupno; // 그룹 번호 : 답글을 작성한 게시물들은 동일한 그룹 번호를 가집니다.
+	private int orderno; // 순서 번호 : 조회 시 보여지는 순서를 의미합니다.
+	private int depth; // 글의 깊이 : 해당 숫자만큼 화면에 're' 표시를 해줍니다.(최대 3까지 허용_정하기 나름)
 	
 	public int getNo() {
 		return no;

@@ -153,7 +153,14 @@
 								<a href="#" onclick="return deleteBoard('${bean.no}','${requestScope.paging.flowParameter}');">삭제</a>
 							</c:if>
 						</td>
-						<td>답글</td>
+						<td>
+							<c:set var="replyInfo" value="&groupno=${bean.groupno}&orderno=${bean.orderno}&depth=${bean.depth}" />
+							<c:if test="${sessionScope.logInfo.id == bean.id}">
+								<a href="<%=notWithFormTag%>boReply&no=${bean.no}${requestScope.paging.flowParameter}${replyInfo}">
+									답글
+								</a>
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -15,6 +15,7 @@ boUpdate=com.shopping.controller.board.BoardUpdateController
 boList=com.shopping.controller.board.BoardListController
 boDelete=com.shopping.controller.board.BoardDeleteController
 boDetail=com.shopping.controller.board.BoardDetailController
+boReply=com.shopping.controller.board.BoardReplyController
 # product section
 prInsert=com.shopping.controller.product.ProductInsertController
 prUpdate=com.shopping.controller.product.ProductUpdateController

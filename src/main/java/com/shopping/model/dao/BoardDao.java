@@ -148,9 +148,8 @@ public class BoardDao extends SuperDao {
 	
 	public int insertData(Board bean) {
 		// no 컬럼은 시퀀스가 알아서 처리합니다.
-		
-		String sql = "insert into boards(no, id, password, subject, contents)";
-		sql += " values(seqboard.nextval, ?, ?, ?, ?)";
+		String sql = "insert into boards(no, id, password, subject, contents, groupno)";
+		sql += " values(seqboard.nextval, ?, ?, ?, ?, seqboard.currval)";
 		
 		PreparedStatement pstmt = null;
 		int cnt = -1;
@@ -268,8 +267,9 @@ public class BoardDao extends SuperDao {
 	
 	public List<Board> getDataList(Paging paging){
 		// 페이징 처리를 이용하여 데이터를 조회합니다.
+		// 답글을 고려해야 하기 때문에 over() 구문을 변경합니다.
 		String sql = "select no, id, password, subject, contents, readhit, regdate, remark, groupno, orderno, depth";
-		sql += " from (select rank() over(order by no desc) as ranking, no, id, password, subject, contents, readhit, regdate,";
+		sql += " from (select rank() over(order by groupno desc, orderno asc) as ranking, no, id, password, subject, contents, readhit, regdate,";
 		sql += " remark, groupno, orderno, depth";
 		sql += " from boards";
 		
