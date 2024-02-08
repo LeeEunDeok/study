@@ -10,7 +10,7 @@
 	.rounded-pill {
 		opacity: 0.9;
 	}
-	
+	 
 	.container {
 		margin: 10px;
 	}
