@@ -42,7 +42,6 @@ public class BoardInsertController extends SuperClass {
 		
 		int cnt = -1;
 		cnt = dao.insertData(bean);
-		String message = "";
 		
 		if(cnt == 1){ // 인서트 성공
 			new BoardListController().doGet(request, response);
@@ -50,8 +49,6 @@ public class BoardInsertController extends SuperClass {
 			new BoardInsertController().doGet(request, response);
 		}
 		
-		
-		super.goToPage(PREFIX + "boInsertForm.jsp");
 	}
 	
 }

@@ -155,11 +155,10 @@
 						</td>
 						<td>
 							<c:set var="replyInfo" value="&groupno=${bean.groupno}&orderno=${bean.orderno}&depth=${bean.depth}" />
-							<c:if test="${sessionScope.logInfo.id == bean.id}">
-								<a href="<%=notWithFormTag%>boReply&no=${bean.no}${requestScope.paging.flowParameter}${replyInfo}">
-									답글
-								</a>
-							</c:if>
+							
+							<a href="<%=notWithFormTag%>boReply&no=${bean.no}${requestScope.paging.flowParameter}${replyInfo}">
+								답글
+							</a>
 						</td>
 					</tr>
 				</c:forEach>

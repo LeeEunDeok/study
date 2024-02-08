@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.shopping.common.SuperClass;
 import com.shopping.model.bean.Board;
+import com.shopping.model.bean.Emoticon;
 import com.shopping.model.dao.BoardDao;
+import com.shopping.model.dao.EmoticonDao;
 
 public class BoardDetailController extends SuperClass {
 	private final String PREFIX = "board/";
@@ -25,6 +27,11 @@ public class BoardDetailController extends SuperClass {
 		} else {
 			// 현재 로그인한 사람이 작성한 글이 아니면 조회수를 1씩 증가시킵니다.
 			String readhitUpdate = request.getParameter("readhitUpdate");
+			
+			// 조회수 +1 정보가 없으면, 기본값은 "false"로 지정합니다.
+			// 즉, 조회수를 +1 시키지 않겠습니다.
+			if(readhitUpdate == null) {readhitUpdate = "false";}
+			
 			if(readhitUpdate.equals("true")) {
 				dao.updateReadhit(no);
 			}
@@ -37,6 +44,16 @@ public class BoardDetailController extends SuperClass {
 			paramList += "&mode=" + request.getParameter("mode");
 			paramList += "&keyword=" + request.getParameter("keyword");
 			request.setAttribute("paramList", paramList);
+			
+			// 이모티콘 정보 읽어오기
+			EmoticonDao edao = new EmoticonDao();
+			Emoticon emoticon = edao.getEmoticon(no);
+			
+			// 이모티콘 정보가 없는 경우, 신규 emoticon 객체를 생성해줍니다.
+			if(emoticon == null) {emoticon = new Emoticon();}
+			
+			// 상세 보기 페이지에서 보여주기 위해 바인딩합니다.
+			request.setAttribute("emoticon", emoticon);
 			
 			request.setAttribute("bean", bean);
 			super.goToPage(PREFIX + "boDetail.jsp");

@@ -11,6 +11,100 @@ import com.shopping.utility.Paging;
 
 // 게시물과 관련된 Dao(Data Access Object) 클래스
 public class BoardDao extends SuperDao {
+	public int replyData(Board bean, Integer orderno) {
+		System.out.println("답글 달기");
+		System.out.println(bean);
+		
+		String sql = "";
+		PreparedStatement pstmt = null;
+		int cnt = -1;
+		
+		super.conn = super.getConnection();
+		
+		try {
+			// step 01 : 동일한 그룹 번호에 대하여 orderno 컬럼의 숫자를 1씩 증가시켜 주어야 합니다.
+			sql = "update boards set orderno = orderno + 1";
+			sql += " where groupno = ? and orderno > ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bean.getGroupno());
+			pstmt.setInt(2, orderno);
+			cnt = pstmt.executeUpdate();
+			
+			if(pstmt != null) {pstmt.close();}
+			
+			// step 02 : 답글(bean) 객체 정보를 이용하여 DB에 추가합니다.
+			sql = "insert into boards(no, id, password, subject, contents, groupno, orderno, depth)";
+			sql += " values(seqboard.nextval, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, bean.getId());
+			pstmt.setString(2, bean.getPassword());
+			pstmt.setString(3, bean.getSubject());
+			pstmt.setString(4, bean.getContents());
+			pstmt.setInt(5, bean.getGroupno());
+			pstmt.setInt(6, bean.getOrderno());
+			pstmt.setInt(7, bean.getDepth());
+			
+			cnt = pstmt.executeUpdate();
+			conn.commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		} finally {
+			try {
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+	
+	public Integer getReplyCount(Integer groupno) {
+		// 해당 그룹 번호(groupno)에 속해 있는 데이터의 행 개수를 반환해줍니다.
+		System.out.println("검색할 그룹 번호 : " + groupno);
+		
+		String sql = "select count(*) as cnt from boards";
+		sql += " where groupno = ?";
+		
+		int cnt = -1; // 데이터 행 개수
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		super.conn = super.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, groupno);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				cnt = rs.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+	
 	public int updateData(Board bean) {
 		System.out.print("게시물 수정 페이지 : ");
 		System.out.println(bean);
@@ -147,6 +241,11 @@ public class BoardDao extends SuperDao {
 	}
 	
 	public int insertData(Board bean) {
+		// 게시물 추가하기
+		// step01 : 게시물 테이블에 1건 추가하기
+		// step02 : 방금 추가된 게시물 글번호를 활용하여 Emoticons 테이블에 데이터 1건 추가하기
+		// 오라클의 트리거(trigger)를 사용하면 자동으로 추가가 가능합니다.(향후 고려 사항)
+		
 		// no 컬럼은 시퀀스가 알아서 처리합니다.
 		String sql = "insert into boards(no, id, password, subject, contents, groupno)";
 		sql += " values(seqboard.nextval, ?, ?, ?, ?, seqboard.currval)";
@@ -170,6 +269,27 @@ public class BoardDao extends SuperDao {
 			
 			cnt = pstmt.executeUpdate();
 			
+			// 방금 추가된 게시물 글번호를 이용하여 Emoticons 테이블에 데이터를 추가합니다.
+			if(pstmt != null) {pstmt.close();}
+			
+			// 방금 추가된 글 번호 추출하기
+			sql = "select seqboard.currval as no from dual";
+			ResultSet rs = null;
+			int no = 0; // 방금 추가된 글 번호
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				no = rs.getInt("no");
+			}
+			if(pstmt != null) {pstmt.close();}
+			
+			// 이모티콘 테이블에 인서트 합니다.
+			sql = "insert into emoticons(no, likes, hates, love, sad, angry)";
+			sql += " values(?, 0, 0, 0, 0, 0)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			cnt = pstmt.executeUpdate();
+			
 			conn.commit();
 			
 		}catch (Exception e) {
@@ -191,8 +311,6 @@ public class BoardDao extends SuperDao {
 				
 			}
 		}
-		
-		
 		return cnt;
 	}
 	
@@ -219,7 +337,6 @@ public class BoardDao extends SuperDao {
 			return bean;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
