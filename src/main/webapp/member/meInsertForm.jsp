@@ -10,20 +10,50 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#birth').datepicker({dateFormat:"yy/mm/dd"});
+				
+				$('#id').keyup(function(){
+					/* id를 변경하는 경우 다시 중복 체크를 유도하기 위해 false로 변경해주어야 합니다. */
+					$('#isRegister').val('false');
+				});
 			});
 			
+			function idCheck(){/* 아이디 중복 체크를 수행합니다. */
+				var isRegister = $('#isRegister').val();
+				console.log('isRegister = ' + isRegister);
+				// alert(isRegister);
+				
+				var id = $('#id').val();
+				if(id == ''){
+					alert('아이디를 입력해 주세요.');
+					$('#id').focus();
+					return;
+				}
+				
+				var url = '<%=notWithFormTag%>meIdCheck&id=' + id;
+				window.open(url, 'idCheck', width=400, height=300)
+			}
+			
 			function validCheck(){/* form validation check */
+				
+				/* 회원 가입 체크용 변수가 true인지 체크합니다. */
+				var isRegister = $('#isRegister').val();
+				if(isRegister == 'false'){
+					alert('아이디 중복 체크가 필요합니다.');
+					$('#id').foucs(); /* $('#id').select; */
+					return false;
+				}
+				
 		        var id = $('#id').val();           
 		        
 		        if(id.length < 4 || id.length > 10){
 		           alert('아이디는 4자리 이상 10자리 이하로 입력해 주세요.');
-		           $('#id').focus();
+		           $('#id').select();
 		           return false ; /* false이면 이벤트 전파 방지 */
 		        }
 		        
 		        var name = $('#name').val();           
 		        if(name.length < 3 || name.length > 15){              
-		           $('#name').focus();
+		           $('#name').select();
 		           alert('이름은 3자리 이상 15자리 이하로 입력해 주세요.');
 		           return false ;
 		        }
@@ -31,7 +61,7 @@
 		        var password = $('#password').val();           
 		        if(password.length < 5 || password.length > 12){
 		           alert('비밀 번호는 5자리 이상 12자리 이하로 입력해 주세요.');
-		           $('#password').focus();
+		           $('#password').select();
 		           return false ;
 		        }    
 		        
@@ -78,8 +108,28 @@
 		         }
 		        
 		     }
-
+		</script>
+		
+		<%-- 다음 주소 검색을 위한 추가 코드 --%>
+		<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+			function openZipSearch() {
+			    new daum.Postcode({
+			       oncomplete: function(data) {     
+			      var addr = ''; 
+			      if (data.userSelectedType === 'R') { 
+			         addr = data.roadAddress;
+			      } else {
+			         addr = data.jibunAddress;
+			      }
 			
+			      $("#zip_code").val(data.zonecode);
+			      $("#address").val(addr); /* 메인 주소 입력 */
+			      $("#address2").val(""); 
+			      $("#address2").focus(); /* 상세 주소 입력란에 포커스 주기 */
+			        }
+			    }).open();
+			}
 		</script>
 		<style type="text/css">
 			/* box model에 대한 공부가 필요합니다. */
@@ -102,11 +152,16 @@
 			<h2>회원 가입</h2>
 			<p>신규 회원이 가입하는 페이지 입니다.</p>
 	
-			<form action="<%=withFormTag%>" method="post">
+			<form action="<%=withFormTag%>" method="post" name="myform">
 				<input type="hidden" name="command" value="meInsert">
+				
+				<%-- 중복 체크를 했는지 판단하기 위한 boolean 타입의 히든 양식으로 true 일때만 회원 가입이 가능합니다. --%>
+				<input type="hidden" id="isRegister" name="isRegister" value="false">
+				
 				<div class="input-group mb-3">
 					<span class="input-group-text">아이디</span>
 					<input type="text" class="form-control" id="id" name="id" value="asdf">
+					<button type="button" class="btn btn-primary" onclick="idCheck()">중복 체크</button>
 				</div>
 	
 				<div class="input-group mb-3">
@@ -162,7 +217,8 @@
 	
 				<div class="input-group mb-3">
 					<span class="input-group-text">주소</span>
-					<input type="text" class="form-control" id="address" name="address" value="마포구 거구장">
+					<input type="text" class="form-control" id="address" name="address" value="" onclick="openZipSearch()">
+					<input type="text" class="form-control" id="address2" name="address2" placeholder="세부 주소 입력">
 				</div>
 	
 				<div id="buttonset" class="input-group mb-3">

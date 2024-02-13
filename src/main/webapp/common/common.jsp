@@ -95,7 +95,7 @@ String notWithFormTag = withFormTag + "?command=";
 								<li><a class="dropdown-item" href="<%=notWithFormTag%>meDetail&id=${sessionScope.logInfo.id}">상세 보기</a></li>
 							</c:if>
 							<c:if test="${whologin eq 1 }">
-								<li><a class="dropdown-item" href="<%=notWithFormTag%>meDelete">탈퇴하기</a></li>
+								<li><a class="dropdown-item" href="<%=notWithFormTag%>meDelete&id=${sessionScope.logInfo.id}">탈퇴하기</a></li>
 							</c:if>
 							<c:if test="${whologin eq 2 }">
 								<li><a class="dropdown-item" href="<%=notWithFormTag%>meList">목록 보기</a></li>

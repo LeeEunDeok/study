@@ -2,12 +2,13 @@
 hello=com.shopping.controller.HelloController
 world=com.shopping.controller.WorldController
 # member section
+meIdCheck=com.shopping.controller.member.MemberIdCheckController
 meLogin=com.shopping.controller.member.MemberLoginController
 meLogout=com.shopping.controller.member.MemberLogoutController
 meInsert=com.shopping.controller.member.MemberInsertController
 meUpdate=com.shopping.controller.member.MemberUpdateController
 meList=com.shopping.controller.member.MemberListController
-#meDelete=com.shopping.controller.member.MemberDeleteController
+meDelete=com.shopping.controller.member.MemberDeleteController
 meDetail=com.shopping.controller.member.MemberDetailController
 # board section
 boInsert=com.shopping.controller.board.BoardInsertController
@@ -24,10 +25,10 @@ prList=com.shopping.controller.product.ProductListController
 prDelete=com.shopping.controller.product.ProductDeleteController
 prDetail=com.shopping.controller.product.ProductDetailController
 # comment section
-#cmList=com.shopping.controller.comment.CommentListController
+cmList=com.shopping.controller.comment.CommentListController
 cmInsert=com.shopping.controller.comment.CommentInsertController
 #cmUpdate=com.shopping.controller.comment.CommentUpdateController
-#cmDelete=com.shopping.controller.comment.CommentDeleteController
+cmDelete=com.shopping.controller.comment.CommentDeleteController
 # view section
 #vwList=com.shopping.controller.view.ViewListController
 #vwExam01=com.shopping.controller.view.View01Controller

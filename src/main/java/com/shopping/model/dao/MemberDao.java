@@ -6,9 +6,129 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.shopping.model.bean.Board;
 import com.shopping.model.bean.Member;
+import com.shopping.utility.MyUtility;
+import com.shopping.utility.Paging;
 
 public class MemberDao extends SuperDao{
+	public List<Member> getDataList(Paging paging) {
+		String sql = "select id, name, password, gender, birth, marriage, hobby, address, mpoint";
+		sql += " from (select rank() over(order by name asc) as ranking, id, name, password, gender,";
+		sql += " birth, marriage, hobby, address, mpoint";
+		sql += " from members";
+		
+		// 필드 검색을 위해 mode 변수로 분기 처리 하도록 합니다.
+		String mode = paging.getMode();
+		String keyword = paging.getKeyword();
+		
+		if(mode==null || mode.equals("all") || mode.equals("null") || mode.equals("")) {
+			
+		}else { // 전체모드가 아니면 
+			sql += " where " + mode + " like '%" + keyword + "%'";
+		}
+		
+		sql += " )";
+		sql += " where ranking between ? and ? ";
+		
+		System.out.println("sql 구문 :\n" + sql);
+		
+		
+		PreparedStatement pstmt = null; // 문장 객체
+		ResultSet rs = null;
+		
+		List<Member> dataList = new ArrayList<Member>();
+		
+		super.conn = super.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, paging.getBeginRow());
+			pstmt.setInt(2, paging.getEndRow());
+			
+			rs = pstmt.executeQuery();
+			
+			// 요소들을 읽어서 컬렉션에 담습니다.
+			while(rs.next()) {
+				Member bean = this.resultSet2Bean(rs);
+				dataList.add(bean);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+				
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+				
+		return dataList;
+	}
+	
+	public int deleteData(String id) {
+		int cnt = -1;
+		String sql = "";
+		Member bean = this.getDataBean(id);
+		String remark = MyUtility.getCurrentTime() + bean.getName() + "(아이디 : " + id + ")님이 탈퇴하셨습니다.";
+		
+		PreparedStatement pstmt = null;
+		conn = super.getConnection();
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			// step01 : 게시물 테이블의 remark 컬럼을 업데이트 합니다.
+			sql = "update boards set remark = ? where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, remark);
+			pstmt.setString(2, id);
+			cnt = pstmt.executeUpdate();
+			if(pstmt != null) {pstmt.close();}
+			
+			// step02 : 주문 테이블의 remark 컬럼을 업데이트 합니다.
+			sql = "update orders set remark = ? where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, remark);
+			pstmt.setString(2, id);
+			cnt = pstmt.executeUpdate();
+			if(pstmt != null) {pstmt.close();}
+			
+			// step03 : 회원 테이블 데이터를 삭제합니다.
+			sql = "delete from members where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			cnt = pstmt.executeUpdate();
+			if(pstmt != null) {pstmt.close();}
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				super.closeConnection();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+	
 	public int updateData(Member bean) {
 		
 		String sql = "update members set name = ?, password = ?, gender = ?, birth = ?, marriage = ?, hobby = ?,"
