@@ -7,10 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.shopping.model.bean.Product;
+import com.shopping.model.mall.CartItem;
 import com.shopping.utility.MyUtility;
 import com.shopping.utility.Paging;
 
 public class ProductDao extends SuperDao{
+	public CartItem getCartItem(Integer pnum, Integer qty) {
+		Product bean = this.getDataBean(pnum); // 상품 정보
+		
+		CartItem item = new CartItem(); // 상품 정보 + 구매 수량 + 로그인 아이디
+		
+		// id 컬럼은 WishList 테이블과 관련 있음(지금은 의미 없음)
+		item.setId(null);
+		
+		item.setImage01(bean.getImage01());
+		item.setPname(bean.getName());
+		item.setPnum(pnum);
+		item.setPoint(bean.getPoint());
+		item.setPrice(bean.getPrice());
+		item.setQty(qty);
+		
+		return item;
+	}
+	
 	public int deleteData(int pnum) {
 		// 상품은 주문 상세 테이블과 참조 무결성 제약 조건 set null 을 가지고 있습니다.
 		// 상품 삭제 시 주문 상세 테이블의 remark 컬럼을 갱신하도록 합니다.
@@ -372,7 +391,5 @@ public class ProductDao extends SuperDao{
 		}
 		return cnt;
 	}
-
-	
 
 }

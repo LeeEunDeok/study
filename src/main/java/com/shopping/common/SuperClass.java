@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.shopping.model.bean.Member;
+import com.shopping.model.mall.CartManager;
 
 // 하위 컨트롤러들이 공통적으로 사용하는 기능들을 여기에 명시하도록 합니다.
 public class SuperClass implements SuperController {
@@ -14,8 +15,12 @@ public class SuperClass implements SuperController {
 	
 	// 세션 객체로서 하위 컨트롤러들이 참조 가능합니다.
 	protected HttpSession session;
+	
 	// 로그인 여부를 파악하는 변수. 하위 컨트롤러들이 참조 가능.
 	protected Member logInfo = null;
+	
+	// 나의 카트 관리자
+	protected CartManager mycart = null;
 	
 	public String getUrlInformation(String todoCommand) {
 		// todoCommand : todolist.txt 파일에 명시된 커맨드 이름
@@ -41,6 +46,11 @@ public class SuperClass implements SuperController {
 		this.response = response;
 		this.session = request.getSession();
 		this.logInfo = (Member) session.getAttribute("logInfo");
+		
+		// 카트 정보는 로그인 성공 시 준비하면 됩니다.(MemberLoginController 클래스 참조)
+		this.mycart = (CartManager) session.getAttribute("mycart");
+		// 내 카트가 없으면, 카트 있는 곳 가서 준비하기
+		if(mycart == null) {mycart = new CartManager();}
 	}
 
 	@Override
@@ -49,6 +59,11 @@ public class SuperClass implements SuperController {
 		this.response = response;
 		this.session = request.getSession();
 		this.logInfo = (Member) session.getAttribute("logInfo");
+		
+		// 카트 정보는 로그인 성공 시 준비하면 됩니다.(MemberLoginController 클래스 참조)
+		this.mycart = (CartManager) session.getAttribute("mycart");
+		// 내 카트가 없으면, 카트 있는 곳 가서 준비하기
+		if(mycart == null) {mycart = new CartManager();}
 	}
 	
 	public void setAlertMessage(String message) {
