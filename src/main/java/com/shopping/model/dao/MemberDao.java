@@ -272,7 +272,7 @@ public class MemberDao extends SuperDao{
 		return cnt;
 	}
 	
-	public Member getDataByIdAndPasswrod(String id, String password) {
+	public Member getDataByIdAndPassword(String id, String password) {
 		// 아이디와 비밀번호를 이용하여 해당 회원이 존재하는지 확인합니다.
 		String sql = "select * from members";
 		sql += " where id = ? and password = ?";

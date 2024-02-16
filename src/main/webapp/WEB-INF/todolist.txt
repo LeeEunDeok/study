@@ -30,17 +30,17 @@ cmInsert=com.shopping.controller.comment.CommentInsertController
 #cmUpdate=com.shopping.controller.comment.CommentUpdateController
 cmDelete=com.shopping.controller.comment.CommentDeleteController
 # mall section
-#maHistory=com.shopping.controller.mall.MallHistoryController
-#maCalculate=com.shopping.controller.mall.MallCalculateController
+maHistory=com.shopping.controller.mall.MallHistoryController
+maCalculate=com.shopping.controller.mall.MallCalculateController
 maInsert=com.shopping.controller.mall.MallInsertController
 maUpdate=com.shopping.controller.mall.MallUpdateController
 maList=com.shopping.controller.mall.MallListController
 maDelete=com.shopping.controller.mall.MallDeleteController
-#maDetail=com.shopping.controller.mall.MallDetailController
+maDetail=com.shopping.controller.mall.MallDetailController
 # view section
-#vwList=com.shopping.controller.view.ViewListController
-#vwExam01=com.shopping.controller.view.View01Controller
-#vwExam02=com.shopping.controller.view.View02Controller
-#vwExam03=com.shopping.controller.view.View03Controller
-#vwExam04=com.shopping.controller.view.View04Controller
-#vwExam05=com.shopping.controller.view.View05Controller
+vwList=com.shopping.controller.view.ViewListController
+vwExam01=com.shopping.controller.view.View01Controller
+vwExam02=com.shopping.controller.view.View02Controller
+vwExam03=com.shopping.controller.view.View03Controller
+vwExam04=com.shopping.controller.view.View04Controller
+vwExam05=com.shopping.controller.view.View05Controller

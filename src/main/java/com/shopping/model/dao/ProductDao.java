@@ -12,6 +12,43 @@ import com.shopping.utility.MyUtility;
 import com.shopping.utility.Paging;
 
 public class ProductDao extends SuperDao{
+	public Integer getMileagePoint(Integer pnum) {
+		// 해당 상품 번호에 대한 적립 포인트를 구해 줍니다.
+		int point = 0;
+		
+		String sql = "select point from products";
+		sql += " where pnum = ?";
+		
+		PreparedStatement pstmt = null; // 문장 객체
+		ResultSet rs = null;
+		
+		super.conn = super.getConnection();
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pnum);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				point = rs.getInt("point");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(rs != null) {rs.close();}
+				if(pstmt != null) {pstmt.close();}
+				super.closeConnection();
+				
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return point;
+	}
+	
 	public CartItem getCartItem(Integer pnum, Integer qty) {
 		Product bean = this.getDataBean(pnum); // 상품 정보
 		

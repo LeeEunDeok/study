@@ -138,7 +138,7 @@ String notWithFormTag = withFormTag + "?command=";
 						class="nav-link dropdown-toggle" href="<%=notWithFormTag%>" role="button" 
 						data-bs-toggle="dropdown">데이터 보기</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="<%=notWithFormTag%>bwList">목록 보기</a></li>
+							<li><a class="dropdown-item" href="<%=notWithFormTag%>vwList">목록 보기</a></li>
 						</ul>
 					</li>
 				</ul>
